@@ -1,27 +1,57 @@
-# demo-project
+demo
+==============================
 
-Main goal: 
-Develop an investment tool. 
+... 
+
+Project Organization
+------------
+
+    ├── LICENSE
+    ├── Makefile           <- Makefile with commands like `make data` or `make train`
+    ├── README.md          <- The top-level README for developers using this project.
+    ├── data
+    │   ├── external       <- Data from third party sources.
+    │   ├── interim        <- Intermediate data that has been transformed.
+    │   ├── processed      <- The final, canonical data sets for modeling.
+    │   └── raw            <- The original, immutable data dump.
+    │
+    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
+    │
+    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    │
+    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
+    │                         the creator's initials, and a short `-` delimited description, e.g.
+    │                         `1.0-jqp-initial-data-exploration`.
+    │
+    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+    │
+    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
+    │   └── figures        <- Generated graphics and figures to be used in reporting
+    │
+    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
+    │                         generated with `pip freeze > requirements.txt`
+    │
+    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
+    ├── src                <- Source code for use in this project.
+    │   ├── __init__.py    <- Makes src a Python module
+    │   │
+    │   ├── data           <- Scripts to download or generate data
+    │   │   └── make_dataset.py
+    │   │
+    │   ├── features       <- Scripts to turn raw data into features for modeling
+    │   │   └── build_features.py
+    │   │
+    │   ├── models         <- Scripts to train models and then use trained models to make
+    │   │   │                 predictions
+    │   │   ├── predict_model.py
+    │   │   └── train_model.py
+    │   │
+    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
+    │       └── visualize.py
+    │
+    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
 
-We recommend the following questions to get a better understanding of your clients’ requirements:
+--------
 
- 
-
-What does your company do?
-Who is your target audience?
-What’s your Unique Selling Proposition (USP)?
-Do you want to improve an existing website, or create a website from scratch?
-Do you want your website to be optimized for SEO? Do you have a list of keywords you’d like to target?
-What is the URL of your existing website (if any)? What do you like and dislike about your existing website?
-What is the URL of 2-3 reference websites that you like? What do you like about these websites?
-Do you know what platform you want to use for your site?
-What pages do you need on your website?
-What features do you need on your website?
-What’s the underlying goal of your website?
-Do you have the content ready for your site?
-Does your company have a brand book covering things like colors and fonts?
-When would you like to launch your new site?
-What is your budget for the website?
-Do you need help updating and maintaining your website?
-Do you need help with blogging and content marketing?
+<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
