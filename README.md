@@ -45,7 +45,14 @@ Project Organization
     │   │   │                 predictions
     │   │   ├── predict_model.py
     │   │   └── train_model.py
-    │   │
+    │   ├── scripts        <- Scripts for data acquisition
+    │   │   │           
+    │   │   └── Discord-Scraper
+    │   │        ├── SimpleRequests          <- 
+    │   │        │     │ 
+    │   │              └──
+    │   │  
+    │   ├── predict_model.py
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
     │       └── visualize.py
     │
