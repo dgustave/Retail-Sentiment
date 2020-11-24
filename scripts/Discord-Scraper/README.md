@@ -1,7 +1,7 @@
 # Discord Scraper
 
 ## Table of Contents
-* [Configuring Discord application for PC](#desktop-application)
+* [Configuring Discord](#desktop-application)
 * [Notes](#notes)
 
 ## Configuring:
