@@ -2,13 +2,9 @@
 
 ## Table of Contents
 * [Configuring Discord application for PC](#desktop-application)
-* [Configuring Discord website for PC](#website)
 * [Notes](#notes)
-* [Changelog](#changelog)
 
-## Configuring
-
-### Desktop Application:
+## Configuring:
 
 Step 1:
 Open your Discord app and click the settings wheel.
@@ -23,31 +19,38 @@ Developer Mode is located at the very bottom of the appearance page, within the 
 
 ![Step 3](images/Step3.png "Step 3")
 
-### Website:
+### Authorization:
 
 Step 3:
 Close the settings menu and press CTRL + SHIFT + I to open the Developer panel (similiar to your browser).
 
 Step 4:
 Click on the server you want to scrape, then click the channel you plan to scrape.
+
 Go to the Network tab, click 'messages?limit=50' (or something similar) within the name list.
+
 Click the header tab, and copy the value of "authorization" into the config.json file.
-![Step 4](images/Step4.png "Step 4")
+![Step 4](images/Step5.png "Step 4")
+
+Paste the value you copied from the authorization field into the config.json into the variable "token".
 ![Step 5](images/Step5.png "Step 5")
 
 Step 5:
-Close the Developer panel and right-click on the server icon and copy ID.
+Close the Developer panel and right-click on the server you plan to scrape and copy ID.
 
 ![Step 6](images/Step6.png "Step 6")
 
 Paste the server ID into the config.json file.
-![Step 7](images/Step7.png "Step 7")
+![Step 7](images/Step4.2.png "Step 7")
 
 Step 6:
 Right-click on the channel name and copy ID.
-Paste the channel ID into the config.json file.
 
 ![Step 8](images/Step8.png "Step 8")
+
+Paste the channel ID into the config.json file.
+
+![Step 9](images/Step8.2.png "Step 9")
 
 Step 7:
 Run the script to start the downloading process.
