@@ -131,7 +131,7 @@ class Discord:
             'authorization': cfg.token
         }
 
-        self.types = c1fg.types
+        self.types = cfg.types
         self.query = create_query_body(
             images=cfg.query['images'],
             files=cfg.query['files'],
