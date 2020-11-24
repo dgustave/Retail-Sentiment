@@ -12,7 +12,7 @@
 
 Step 1:
 Open your Discord app and enter the app settings.
-![vwJ4kp5.png](https://i.imgur.com/vwJ4kp5.png "Step 1")
+![Step 1](images/Step1.png "Step 1")
 
 Step 2:
 Traverse to Appearance and enable Developer Mode if it is disabled.
