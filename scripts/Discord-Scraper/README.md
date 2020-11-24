@@ -16,6 +16,7 @@ Open your Discord app and enter the app settings.
 
 Step 2:
 Traverse to Appearance and enable Developer Mode.
+
 ![Step 2](images/Step2.png "Step 2")
 ![Step 3](images/Step3.png "Step 3")
 ### Website:
@@ -38,6 +39,7 @@ Paste the server ID into the config.json file.
 Step 6:
 Right-click on the channel name and copy ID.
 Paste the channel ID into the config.json file.
+
 ![Step 8](images/Step8.png "Step 8")
 
 Step 7:
