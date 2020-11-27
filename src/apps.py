@@ -1,8 +1,5 @@
 # Import Dependencies 
 from flask import Flask, request, render_template, redirect
-from flask_pymongo import PyMongo
-from flask_assets import Environment, Bundle
-from flask_scss import Scss
 import pymongo
 from pymongo import MongoClient
 from flask import jsonify, json, request
@@ -36,11 +33,11 @@ def profile():
 def Searched_Stock():
     return render_template('Stocksearch.html')
 
-@app.route('/tables') 
-def stable():
+# @app.route('/tables') 
+# def stable():
 
 
-    return render_template("tables.html", table=table)
+#     return render_template("tables.html", table=table)
 
 @app.route('/candle') 
 def candle():
