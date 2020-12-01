@@ -282,7 +282,7 @@ class Discord:
 
         date = datetime.today()
 
-        while date.year >= 2015:
+        while date.year >= 2019:
             request = SimpleRequest(self.headers).request
             today = get_day(date.day, date.month, date.year)
 
