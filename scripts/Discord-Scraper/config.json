@@ -6,8 +6,8 @@
   "query": {
     "images": false,
     "files" : false,
-    "embeds": true,
-    "links" : true,
+    "embeds": false,
+    "links" : false,
     "videos": false,
     "nsfw"  : false
   },
@@ -15,15 +15,15 @@
   "types": {
     "images": false,
     "videos": false,
-    "files" : true,
+    "files" : false,
     "text"  : true
   },
 
   "directs": {},
   "servers": {
-    "657460436177780740":[
-      "657460436924497933",
-      "753411757631995975"
+    "588270137874841620":[
+      "588284257491877889",
+      "664175778052964382"  
     ]
   }
 }
