@@ -43,8 +43,12 @@ def Stock_Select(request):
 
     fig.update_layout(
      title="Requested Stock Info",
-     yaxis_title=f"{stock}"
-    )
+     yaxis_title=f"{stock}",
+     paper_bgcolor='rgba(0,0,0,0)',
+     plot_bgcolor='rgba(0,0,0,0)'
+     )
+    fig.update_xaxes(showgrid=False)
+    fig.update_yaxes(showgrid=False)
 
     fig.update_layout(autosize=False, width=800, height=500)
 
