@@ -25,11 +25,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    db = client['WallStreet']
-    sp_collection = db["SP500_Change"]
-    table = sp_collection.find_one()
-    print(table)
-    return render_template('index.html', table=table)
+    return render_template('index.html')
 @app.route('/tables') 
 def stable():
     db = client['WallStreet']
@@ -39,10 +35,10 @@ def stable():
     return render_template("tables.html", hdata=hdata)
 
 import ETL
-@app.route('/Stock_Select', methods=['POST']) 
+@app.route('/', methods=['POST']) 
 def Stock_Select(): 
     ETL.Stock_Select(request)
-    return render_template('Stocksearch.html')
+    return render_template('index.html')
 
 @app.route('/profile/')
 def profile():

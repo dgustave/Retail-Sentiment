@@ -120,7 +120,7 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="form">
-              <form action="/Stock_Select" method="post">
+              <form action="/" method="post">
                 <div class="input-group no-border">
                 <label for="symb">Stock Symbol</label><br>
                   <input type="text" name="symb">
@@ -202,7 +202,10 @@
                 </div>
                 <div class="card-body">
                   <h4 class="card-title">SP</h4>
-                  {{table["S&P 500"] | safe}}
+                  <iframe width = "600" height = "720" frameborder = "0" scrolling = "yes" src = "StockETL" ></iframe> 
+                        <!-- <div class="ct-chart" id="dailySalesChart"></div> -->
+                        <div  id="Selectedstock" ></div> <!-- style="width:400px;height:400px;" -->
+                        </div>
                   <p class="card-category">S&P 500 Performance</p>
                 </div>
                 <div class="card-footer">
