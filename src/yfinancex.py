@@ -5,6 +5,7 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt 
+from flask import request 
 import psycopg2
 # Import SQL Alchemy
 import sqlalchemy
@@ -20,7 +21,7 @@ from sqlalchemy.orm import Session
 from psycopg2.extensions import register_adapter, AsIs
 from datetime import date, timedelta, datetime as dt
 
-class stockData(Base):
+class stockTable(Base):
     __tablename__ = 'stock_data'
     id = Column(Integer, primary_key=True)
     TIMESTAMP = Column(String(30))
@@ -30,34 +31,38 @@ class stockData(Base):
     CLOSE = Column(Float)
     TURNOVER = Column(Float)
     VOLATILITY = Column(Float)
-def updateTable():
-    engine = create_engine('postgresql+psycopg2://postgres:postgres@localhost/stock_db')
-    connection = engine.connect()
-    session = Session(bind=engine)
-    Base.metadata.drop_all(engine)
-    # Create tables within the database
-    Base.metadata.create_all(connection)
-    try:
-            for row in value_df.iterrows():
 
-                dcf = stockData(TIMESTAMP=row[1][0], OPEN=row[1][1],HIGH=row[1][2],future_eps=row[1][3], pe_ratio=row[1][4],
-                                   future_value=row[1][5],present_value=row[1][6],
-                                   margin_price=row[1][7],last_share_price=row[1][8],buy_or_sell=row[1][9],
-                                   annual_growth=row[1][10],growth_decision=row[1][11])
-                session.add(dcf)
-            #   session.flush()
-                print(dcf)
-                session.commit()
+def updateTable(request):
+    if request.method == 'POST':
+        symbol = request.form.get('symb') 
+        stockstdate = request.form.get('start')
+        stockedate = request.form.get('end')
+        stock_df = stockData(symbol)
+        engine = create_engine('postgresql+psycopg2://postgres:postgres@localhost/stock_db')
+        connection = engine.connect()
+        session = Session(bind=engine)
+        Base.metadata.drop_all(engine)
+        # Create tables within the database
+        Base.metadata.create_all(connection)
+        try:
+                for row in stock_df.iterrows():
 
-    except (Exception, psycopg2.Error) as error:
-        print("Error in update operation", error)
+                    stock = stockTable(TIMESTAMP=row[1][0], OPEN=row[1][1],HIGH=row[1][2],LOW=row[1][3], CLOSE=row[1][4],
+                                    TURNOVER=row[1][5],VOLATILITY=row[1][6])
+                    session.add(stock)
+                #   session.flush()
+                    print(stock)
+                    session.commit()
 
-    finally:
-        # closing database connection.
-        if (connection):
-            session.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
+        except (Exception, psycopg2.Error) as error:
+            print("Error in update operation", error)
+
+        finally:
+            # closing database connection.
+            if (connection):
+                session.close()
+                connection.close()
+                print("PostgreSQL connection is closed")
 
 
 
@@ -65,7 +70,7 @@ def stockData(symbol):
     ticks = yf.Ticker(symbol)
     currentDate = date.today()
     enddate = currentDate.strftime('%Y-%m-%d')
-    four_yrs = currentDate - timedelta(days=2016)
+    four_yrs = currentDate - timedelta(days=1460)
     startdate = four_yrs.strftime('%Y-%m-%d')
     ydata_df = yf.download(symbol, start=startdate, end=enddate)
     ydata_df.columns = ["OPEN", "HIGH", "LOW", "CLOSE", "Adj Close", "Volume"]
@@ -103,24 +108,7 @@ def stockData(symbol):
     TURNOVER = new_df["TURNOVER"].to_list()
     VOLATILITY = new_df["VOLATILITY"].to_list()
     vol_dict = {"TIMESTAMP": TIMESTAMP, "OPEN": OPEN, "HIGH": HIGH, "LOW ": LOW , "CLOSE": CLOSE, "TURNOVER": TURNOVER, "VOLATILITY": VOLATILITY,}
+    ticker_df = pd.DataFrame(vol_dict)
+    ticker_df.to_csv(f"../data/processed/stockdata.csv", index = False)
+    return ticker_df
 
-    db = client['yfinancing']
-    yfinancing_collection = db[symbol]
-    yfinancing_collection.update_one({}, {"$set": vol_dict}, upsert= True)
-
-    new_df.to_csv(f"../data/processed/{symbol}.csv", index = False)
-
-
-
-stockData('CVS')  
-stockData('BIIB')  
-stockData('BIO')  
-stockData('NEM')  
-stockData('PODD')  
-stockData('PWR')  
-stockData('SMG')  
-stockData('TSLA')  
-stockData('XRX')  
-stockData('NCR')  
-stockData('ENR')  
-stockData('LVGO')  
