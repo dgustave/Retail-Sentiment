@@ -34,7 +34,7 @@
 //   let items = Array.from(parents);
 //   return items[Math.floor(Math.random() * items.length)];
 // }
-Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/coffee-flavors.csv', function(err, rows){
+Plotly.d3.csv('https://raw.githubusercontent.com/dgustave/demo-project/main/data/processed/sunburst.csv?token=AISW6HDR3ASQ5DUF2XU33SC7Z35UU', function(err, rows){
   function unpack(rows, key) {
   return rows.map(function(row) {return row[key]})
 }
