@@ -34,14 +34,28 @@
 //   let items = Array.from(parents);
 //   return items[Math.floor(Math.random() * items.length)];
 // }
-d3.json("/tester.json").then(function(data){
-  console.log(data.response[0].ids)
+Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/coffee-flavors.csv', function(err, rows){
+  function unpack(rows, key) {
+  return rows.map(function(row) {return row[key]})
+}
+
   var data = [{
-    type: "sunburst",
-    maxdepth: 2,
-    ids: data.response[0].ids,
-    labels: data.response[0].labels,
-    parents: data.response[0].parents,
+        type: "sunburst",
+        maxdepth: 2,
+        ids: unpack(rows, 'ids'),
+        labels: unpack(rows, 'labels'),
+        parents: unpack(rows, 'parents'),
+//         textposition: 'inside',
+//         insidetextorientation: 'radial'
+//   }]
+// d3.json("/tester.json").then(function(data){
+//   console.log(data.response[0].ids)
+//   var data = [{
+//     type: "sunburst",
+//     maxdepth: 2,
+//     ids: data.response[0].ids,
+//     labels: data.response[0].labels,
+//     parents: data.response[0].parents,
     outsidetextfont: {size: 20, color: "#377eb8"},
     // values:  [1, 2, 3, 4, 5].parents,
     textposition: 'inside',

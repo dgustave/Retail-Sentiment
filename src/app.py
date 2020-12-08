@@ -76,19 +76,10 @@ def tester():
 def user():
 
     return render_template('user.html')
-
+import src.yfinancex
 @app.route('/candle') 
 def candle():
-    # with open('../data/processed/NCR.csv') as csv_file:
-            
-    #     data = csv.reader(csv_file, delimiter=',')
-    #     first_line = True
-    #     sdata = []
-    #     for row in data:
-    #         if not first_line:
-    #             sdata.append({"TIMESTAMP": row[0], "OPEN": row[1], "HIGH": row[2], "LOW ": row[3], "CLOSE": row[4], "TURNOVER": row[5], "VOLATILITY": row[6]})
-    #         else:
-    #             first_line = False
+        src.yfinancex.stockTable(request)
         return render_template("icons.html")
 
 @app.route('/NCR.json') 
