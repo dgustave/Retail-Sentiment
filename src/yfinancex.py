@@ -1,30 +1,76 @@
 
+import sys 
+import os
 import yfinance as yf
 import pandas as pd
-from datetime import date, timedelta, datetime as dt
 import numpy as np
 import matplotlib.pyplot as plt 
-from yahoo_fin.stock_info import get_analysts_info
-from yahoo_fin.stock_info import *
-from pymongo import MongoClient
-import numpy as np
+from flask import request 
+import psycopg2
+# Import SQL Alchemy
+import sqlalchemy
+from sqlalchemy import create_engine, inspect, func
+# Import and establish Base for which classes will be constructed 
+# Import modules to declare columns and column data types
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
+# Import and establish Base for which classes will be constructed 
+from sqlalchemy.ext.declarative import declarative_base
+Base = declarative_base()
+# Session is a temporary binding to our DB
+from sqlalchemy.orm import Session
+from psycopg2.extensions import register_adapter, AsIs
+from datetime import date, timedelta, datetime as dt
 
+class stockTable(Base):
+    __tablename__ = 'stock_data'
+    id = Column(Integer, primary_key=True)
+    TIMESTAMP = Column(String(30))
+    OPEN = Column(Float)
+    HIGH = Column(Float)
+    LOW = Column(Float)
+    CLOSE = Column(Float)
+    TURNOVER = Column(Float)
+    VOLATILITY = Column(Float)
 
+def updateTable(request):
+    if request.method == 'POST':
+        symbol = request.form.get('symb') 
+        stockstdate = request.form.get('start')
+        stockedate = request.form.get('end')
+        stock_df = stockData(symbol)
+        engine = create_engine('postgresql+psycopg2://postgres:postgres@localhost/stock_db')
+        connection = engine.connect()
+        session = Session(bind=engine)
+        Base.metadata.drop_all(engine)
+        # Create tables within the database
+        Base.metadata.create_all(connection)
+        try:
+                for row in stock_df.iterrows():
 
-client =  MongoClient("mongodb://localhost:27017")
+                    stock = stockTable(TIMESTAMP=row[1][0], OPEN=row[1][1],HIGH=row[1][2],LOW=row[1][3], CLOSE=row[1][4],
+                                    TURNOVER=row[1][5],VOLATILITY=row[1][6])
+                    session.add(stock)
+                #   session.flush()
+                    print(stock)
+                    session.commit()
+
+        except (Exception, psycopg2.Error) as error:
+            print("Error in update operation", error)
+
+        finally:
+            # closing database connection.
+            if (connection):
+                session.close()
+                connection.close()
+                print("PostgreSQL connection is closed")
 
 
 
 def stockData(symbol):
-    db = client['investopedia']
-    db.list_collection_names()
-    col = db.sector_stock_list
-    top_stocks = col.find_one()
-    top_list = [collect for collect in top_stocks['Sector Stocks']]
     ticks = yf.Ticker(symbol)
     currentDate = date.today()
     enddate = currentDate.strftime('%Y-%m-%d')
-    four_yrs = currentDate - timedelta(days=2016)
+    four_yrs = currentDate - timedelta(days=1460)
     startdate = four_yrs.strftime('%Y-%m-%d')
     ydata_df = yf.download(symbol, start=startdate, end=enddate)
     ydata_df.columns = ["OPEN", "HIGH", "LOW", "CLOSE", "Adj Close", "Volume"]
@@ -62,24 +108,7 @@ def stockData(symbol):
     TURNOVER = new_df["TURNOVER"].to_list()
     VOLATILITY = new_df["VOLATILITY"].to_list()
     vol_dict = {"TIMESTAMP": TIMESTAMP, "OPEN": OPEN, "HIGH": HIGH, "LOW ": LOW , "CLOSE": CLOSE, "TURNOVER": TURNOVER, "VOLATILITY": VOLATILITY,}
+    ticker_df = pd.DataFrame(vol_dict)
+    ticker_df.to_csv(f"../data/processed/stockdata.csv", index = False)
+    return ticker_df
 
-    db = client['yfinancing']
-    yfinancing_collection = db[symbol]
-    yfinancing_collection.update_one({}, {"$set": vol_dict}, upsert= True)
-
-    new_df.to_csv(f"../data/processed/{symbol}.csv", index = False)
-
-
-
-stockData('CVS')  
-stockData('BIIB')  
-stockData('BIO')  
-stockData('NEM')  
-stockData('PODD')  
-stockData('PWR')  
-stockData('SMG')  
-stockData('TSLA')  
-stockData('XRX')  
-stockData('NCR')  
-stockData('ENR')  
-stockData('LVGO')  
