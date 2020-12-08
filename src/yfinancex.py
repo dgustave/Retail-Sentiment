@@ -1,26 +1,67 @@
 
+import sys 
+import os
 import yfinance as yf
 import pandas as pd
-from datetime import date, timedelta, datetime as dt
 import numpy as np
 import matplotlib.pyplot as plt 
-from yahoo_fin.stock_info import get_analysts_info
-from yahoo_fin.stock_info import *
-from pymongo import MongoClient
-import numpy as np
+import psycopg2
+# Import SQL Alchemy
+import sqlalchemy
+from sqlalchemy import create_engine, inspect, func
+# Import and establish Base for which classes will be constructed 
+# Import modules to declare columns and column data types
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
+# Import and establish Base for which classes will be constructed 
+from sqlalchemy.ext.declarative import declarative_base
+Base = declarative_base()
+# Session is a temporary binding to our DB
+from sqlalchemy.orm import Session
+from psycopg2.extensions import register_adapter, AsIs
+from datetime import date, timedelta, datetime as dt
 
+class stockData(Base):
+    __tablename__ = 'stock_data'
+    id = Column(Integer, primary_key=True)
+    TIMESTAMP = Column(String(30))
+    OPEN = Column(Float)
+    HIGH = Column(Float)
+    LOW = Column(Float)
+    CLOSE = Column(Float)
+    TURNOVER = Column(Float)
+    VOLATILITY = Column(Float)
+def updateTable():
+    engine = create_engine('postgresql+psycopg2://postgres:postgres@localhost/stock_db')
+    connection = engine.connect()
+    session = Session(bind=engine)
+    Base.metadata.drop_all(engine)
+    # Create tables within the database
+    Base.metadata.create_all(connection)
+    try:
+            for row in value_df.iterrows():
 
+                dcf = stockData(TIMESTAMP=row[1][0], OPEN=row[1][1],HIGH=row[1][2],future_eps=row[1][3], pe_ratio=row[1][4],
+                                   future_value=row[1][5],present_value=row[1][6],
+                                   margin_price=row[1][7],last_share_price=row[1][8],buy_or_sell=row[1][9],
+                                   annual_growth=row[1][10],growth_decision=row[1][11])
+                session.add(dcf)
+            #   session.flush()
+                print(dcf)
+                session.commit()
 
-client =  MongoClient("mongodb://localhost:27017")
+    except (Exception, psycopg2.Error) as error:
+        print("Error in update operation", error)
+
+    finally:
+        # closing database connection.
+        if (connection):
+            session.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
 
 
 
 def stockData(symbol):
-    db = client['investopedia']
-    db.list_collection_names()
-    col = db.sector_stock_list
-    top_stocks = col.find_one()
-    top_list = [collect for collect in top_stocks['Sector Stocks']]
     ticks = yf.Ticker(symbol)
     currentDate = date.today()
     enddate = currentDate.strftime('%Y-%m-%d')

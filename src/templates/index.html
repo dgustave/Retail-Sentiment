@@ -120,7 +120,7 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="form">
-              <form action="/Stock_Select" method="post">
+              <form action="/" method="post">
                 <div class="input-group no-border">
                 <label for="symb">Stock Symbol</label><br>
                   <input type="text" name="symb">
@@ -195,22 +195,13 @@
                 </div>
               </div>
             </div>
-            <div class="col-xl-4 col-lg-12">
-              <div class="card card-chart">
-                <div class="card-header card-header-success">
-                  <!-- <div class="ct-chart" id="websiteViewsChart"></div> -->
-                </div>
-                <div class="card-body">
-                  <h4 class="card-title">SP</h4>
-                  {{table["S&P 500"] | safe}}
-                  <p class="card-category">S&P 500 Performance</p>
-                </div>
+            <!-- <div class="col-xl-6 col-lg-12">
                 <div class="card-footer">
-                  <div class="stats">
+                  <div class="stats"> -->
                     <!-- <i class="material-icons">access_time</i> campaign sent 2 days ago -->
-                  </div>
+                  <!-- </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
 
@@ -232,12 +223,12 @@
                 </div>
               </div>
             </div> -->
-            <div class="col-xl-6 col-lg-4 col-md-4 col-sm-4">
+            <!-- <div class="col-xl-6 col-lg-4 col-md-4 col-sm-4">
               <div class="card card-stats">
                 <div class="card-header card-header-warning card-header-icon">
                   <div class="card-icon">
                     <i class="material-icons">content_copy</i>
-                  </div>
+                  </div> -->
                   <!-- <p class="card-category">Used Space</p>
                   <h3 class="card-title">49/50
                     <small>GB</small>
@@ -247,10 +238,10 @@
                   <div class="stats">
                     <i class="material-icons text-warning">warning</i>
                     <a href="#pablo" class="warning-link">Get More Space...</a> -->
-                    <iframe src="https://quizlet.com/535607951/match/embed?i=n6x0f&x=1jj1" height="300" width="100%" style="border:0"></iframe>
+                    <!-- <iframe src="https://quizlet.com/535607951/match/embed?i=n6x0f&x=1jj1" height="300" width="100%" style="border:0"></iframe>
                   </div>
                 </div>
-              </div>
+              </div> -->
             <!-- <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
               <div class="card card-stats">
                 <div class="card-header card-header-danger card-header-icon">
@@ -266,7 +257,22 @@
                   </div>
                 </div>
               </div> -->
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+              <div class="col-xl-10 col-lg-12">
+              <div class="card card-chart">
+                <div class="card-header card-header-success">
+                  <!-- <div class="ct-chart" id="websiteViewsChart"></div> -->
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">SP</h4>
+                  <iframe width = "1000" height = "1200" frameborder = "0" scrolling = "yes" src = "StockETL" ></iframe> 
+                        <!-- <div class="ct-chart" id="dailySalesChart"></div> -->
+                        <div  id="Selectedstock" ></div> <!-- style="width:400px;height:400px;" -->
+                        </div>
+                  <p class="card-category">S&P 500 Performance</p>
+                </div>
+              </div>
+              
+            <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
               <div class="card card-stats">
                 <div class="card-header card-header-info card-header-icon">
                   <div class="card-icon">
@@ -275,9 +281,9 @@
                   <p class="card-category">Connections</p>
                   <h3 class="card-title">+500</h3>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer"> -->
                   <!-- <i><h6>Join the Community</h3></i> -->
-                  <div>
+                  <!-- <div>
                     <i>
                     <p><a href="https://www.linkedin.com/in/donleygustave/">Donley Gustave "Mentorship"</a></p> 
                   </i>
@@ -292,7 +298,7 @@
                   </i>
                   <p>Join the Community</p>
                   </div>
-              
+               -->
                   <!-- <div class="stats">
                     <i class="material-icons">update</i> Just Updated 
 

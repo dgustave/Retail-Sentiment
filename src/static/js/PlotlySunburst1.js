@@ -55,9 +55,14 @@ d3.json("/tester.json").then(function(data){
   console.log(data)
   var layout = {'margin': {l: 10, r: 0, b: 0, t:0},
   'paper_bgcolor': 'rgba(0,0,0,0)', 
-  'sunburstcolorway':[
-     "#92BFFF", "#92BFFF", "#EFDEFF", "#EFDEFF", '#D996F6',
-     '#D996F6', "#8D67D5", "#8D67D5","#9368E9", "#9368E9","#FEFFFF"
+  // 'sunburstcolorway':[
+  //    "#92BFFF", "#92BFFF", "#EFDEFF", "#EFDEFF", '#D996F6',
+  //    '#D996F6', "#8D67D5", "#8D67D5","#9368E9", "#9368E9","#FEFFFF"
+  // ]}
+
+  sunburstcolorway:[
+    "#636EFA","#EF553B","#00CC96","#AB63FA","#19D3F3",
+    "#E763FA", "#FECB52","#FFA15A","#FF6692","#B6E880", "teal"
   ]}
 
   Plotly.newPlot('tester', data, layout);
