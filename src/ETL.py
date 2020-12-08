@@ -9,6 +9,7 @@ import datetime
 from pymongo import MongoClient
 import numpy as np
 import json
+from pandas_profiling import ProfileReport as pr
 import plotly.graph_objects as go
 
 
@@ -34,6 +35,9 @@ def Stock_Select(request):
 
     data_df2.columns = [ "Date", "OPEN", "HIGH", "LOW", "CLOSE", "ADJ Close", "Volume"]
     data_df2 = data_df2.round({"OPEN": 2, "HIGH": 2, "LOW": 2, "CLOSE": 2})
+    prof = pr(data_df2)
+    prof.to_file(output_file='templates/profile.html')
+
 
 
     fig = go.Figure(data=[go.Candlestick(x=data_df2["Date"],
