@@ -1,9 +1,8 @@
 # Import Dependencies 
 from flask import Flask, request, render_template, redirect, jsonify, url_for 
 from flask_pymongo import PyMongo
-# from flask_assets import Environment, Bundle
-# from flask_scss import Scss
-import pymongo
+import psycopg2
+import sys
 from datetime import datetime
 from pymongo import MongoClient
 from bson.json_util import dumps
@@ -15,8 +14,6 @@ import numpy as np
 import os
 import csv
 
-conn = 'mongodb://localhost:27017'
-client = pymongo.MongoClient(conn)
 
 
 
@@ -26,13 +23,13 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
-@app.route('/tables') 
-def stable():
-    db = client['WallStreet']
-    hp_collection = db["HP"]
-    hdata = hp_collection.find_one()
-    print(hdata)
-    return render_template("tables.html", hdata=hdata)
+# @app.route('/tables') 
+# def stable():
+#     db = client['WallStreet']
+#     hp_collection = db["HP"]
+#     hdata = hp_collection.find_one()
+#     print(hdata)
+#     return render_template("tables.html", hdata=hdata)
 
 import ETL
 @app.route('/', methods=['POST']) 
@@ -52,25 +49,39 @@ def StockETL():
 def Searched_Stock():
     return render_template('Stocksearch.html')
 
-# @app.route("/tester.json")
-# def tester():
-#     db = client.investopedia
-#     collection = db.sunburst 
-#     sunburst_obj =[] 
-#     for s in collection.find():
-#         parents=[]
-#         for x in s['parents']:
-#             if isinstance(x,float):
-#                 a=""
-#             else:
-#                 a=x
-#             parents.append(a)
-#         s['parents']=parents
-#         sunburst_obj.append(s)
+@app.route("/tester.json")
+def tester():
+    con = psycopg2.connect("host='localhost' dbname='investopedia_db' user='postgres' password='postgres'")  
+    cur = con.cursor()
+    cur.execute("""select * from  sunburst""")
+    # data = [col for col in cur]
+    sunburst_obj =[] 
+    for response in cur:
+
+         sun_dict= {'id': response[0], 'ids': response[1], 'labels': response[2], 'parents': response[3]}
+         sunburst_obj.append(sun_dict)
+    cur.close()
+    return jsonify(sunburst_obj)
+    # db = client.investopedia
+    # collection = db.sunburst 
+    # for s in collection.find():
+    #     parents=[]
+    #     for x in s['parents']:
+    #         if isinstance(x,float):
+    #             a=""
+    #         else:
+    #             a=x
+    #         parents.append(a)
+    #     s['parents']=parents
+    #     sunburst_obj.append(s)
     
 
     # response = dumps({"response": sunburst_obj})
     # return response
+@app.route('/dashboard')
+def dash():
+
+    return render_template('dashboard.html')
 
 @app.route('/User-Profile/')
 def user():
