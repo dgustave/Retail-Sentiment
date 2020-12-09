@@ -95,7 +95,7 @@ def sword():
 
 @app.route('/hfrequency/')
 def hword():
-    return render_template('hword.html')
+    return render_template('lword.html')
 
 
 @app.route('/User-Profile/')
