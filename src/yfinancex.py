@@ -20,6 +20,7 @@ Base = declarative_base()
 from sqlalchemy.orm import Session
 from psycopg2.extensions import register_adapter, AsIs
 from datetime import date, timedelta, datetime as dt
+import plotly.graph_objects as go
 
 class stockTable(Base):
     __tablename__ = 'stock_data'
@@ -71,9 +72,36 @@ def stockData(symbol):
     currentDate = date.today()
     enddate = currentDate.strftime('%Y-%m-%d')
     four_yrs = currentDate - timedelta(days=1460)
+    five_days = currentDate - timedelta(days=5)
     startdate = four_yrs.strftime('%Y-%m-%d')
+    xdata_df = yf.download(symbol, period= '5d', interval ='1m')
     ydata_df = yf.download(symbol, start=startdate, end=enddate)
     ydata_df.columns = ["OPEN", "HIGH", "LOW", "CLOSE", "Adj Close", "Volume"]
+    fig = go.Figure(data=go.Ohlc(x=xdata_df['Date'],
+                open=xdata_df['Open'],
+                high=xdata_df['High'],
+                low=xdata_df['Low'],
+                close=xdata_df['Close'],
+                increasing_line_color= 'cyan', decreasing_line_color= 'gray'))
+
+    fig.update_layout(
+        title='Intraday',
+        yaxis_title=f'{symbol} Stock',
+        shapes = [dict(
+            x0=five_days, x1=enddate, y0=0, y1=1, xref='x', yref='paper',
+            line_width=2)],
+        annotations=[dict(
+            x=enddate, y=0.05, xref='x', yref='paper',
+            showarrow=False, xanchor='left', text='Increase Period Begins')],
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)'
+    )
+    fig.update_xaxes(showgrid=False)
+    fig.update_yaxes(showgrid=False)
+
+    fig.update_layout(autosize=False, width=800, height=500)
+
+    fig.write_html('templates/ticker.html')
     daily_close = ydata_df[['Adj Close']]
     daily_pct_change = daily_close.pct_change()
     daily_pct_change.fillna(0, inplace=True)
@@ -109,6 +137,6 @@ def stockData(symbol):
     VOLATILITY = new_df["VOLATILITY"].to_list()
     vol_dict = {"TIMESTAMP": TIMESTAMP, "OPEN": OPEN, "HIGH": HIGH, "LOW ": LOW , "CLOSE": CLOSE, "TURNOVER": TURNOVER, "VOLATILITY": VOLATILITY,}
     ticker_df = pd.DataFrame(vol_dict)
-    ticker_df.to_csv(f"../data/processed/stockdata.csv", index = False)
+    # ticker_df.to_csv(f"../data/processed/stockdata.csv", index = False)
     return ticker_df
 
