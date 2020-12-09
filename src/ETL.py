@@ -35,8 +35,8 @@ def Stock_Select(request):
 
     data_df2.columns = [ "Date", "OPEN", "HIGH", "LOW", "CLOSE", "ADJ Close", "Volume"]
     data_df2 = data_df2.round({"OPEN": 2, "HIGH": 2, "LOW": 2, "CLOSE": 2})
-    prof = pr(data_df2)
-    prof.to_file(output_file='templates/profile.html')
+#     prof = pr(data_df2)
+#     prof.to_file(output_file='templates/profile.html')
 
 
 

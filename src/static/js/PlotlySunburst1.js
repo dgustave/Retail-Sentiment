@@ -34,52 +34,44 @@
 //   let items = Array.from(parents);
 //   return items[Math.floor(Math.random() * items.length)];
 // }
-Plotly.d3.csv('https://raw.githubusercontent.com/dgustave/demo-project/main/data/processed/sunburst.csv?token=APXZ6EPFRWR4OG5ONW3HHO27Z4IPE', function(err, rows){
-  function unpack(rows, key) {
-  return rows.map(function(row) {return row[key]})
-}
-
+d3.json("/tester.json").then(function(data){
+  console.log(data.map(d=> d.ids))
+  console.log(data.map(d=> d.labels))
+  console.log(data.map(d=> d.parents))
+  var parent = data.map(d=> d.parents)
+  Object.keys(parent).forEach(function(key) {
+      if(parent[key] === 'NaN') {
+          parent[key] = 'Market Sector';
+      }
+  })
+  console.log(parent)
   var data = [{
-        type: "sunburst",
-        maxdepth: 2,
-        ids: unpack(rows, 'ids'),
-        labels: unpack(rows, 'labels'),
-        parents: unpack(rows, 'parents'),
-//         textposition: 'inside',
-//         insidetextorientation: 'radial'
-//   }]
-// d3.json("/tester.json").then(function(data){
-//   console.log(data.response[0].ids)
-//   var data = [{
-//     type: "sunburst",
-//     maxdepth: 2,
-//     ids: data.response[0].ids,
-//     labels: data.response[0].labels,
-//     parents: data.response[0].parents,
+    type: "sunburst",
+    maxdepth: 2,
+    ids: data.map(d=> d.ids),
+    labels: data.map(d=> d.labels),
+    parents: parent,
     outsidetextfont: {size: 20, color: "#377eb8"},
     // values:  [1, 2, 3, 4, 5].parents,
     textposition: 'inside',
     insidetextorientation: 'radial',
     opacity: .8,
-  marker: {line: {width: 0.5}},
+  marker: {line: {width: 1}},
                
   leaf: {opacity: 0.6},
   leaves: {opacity: 0.6, color : "white" }
   }];
-  console.log(data)
+  // console.log(data)
   var layout = {'margin': {l: 10, r: 0, b: 0, t:0},
   'paper_bgcolor': 'rgba(0,0,0,0)', 
-  // 'sunburstcolorway':[
-  //    "#92BFFF", "#92BFFF", "#EFDEFF", "#EFDEFF", '#D996F6',
-  //    '#D996F6', "#8D67D5", "#8D67D5","#9368E9", "#9368E9","#FEFFFF"
-  // ]}
-
   sunburstcolorway:[
     "#636EFA","#EF553B","#00CC96","#AB63FA","#19D3F3",
     "#E763FA", "#FECB52","#FFA15A","#FF6692","#B6E880", "teal"
   ]}
 
   Plotly.newPlot('tester', data, layout);
+  
+
 //   // Periodically animate chart by reversing current value collection
 // setInterval(function () {
 //   var values = data.response[0].labels.slice().reverse();
