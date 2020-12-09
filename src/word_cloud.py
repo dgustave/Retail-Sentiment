@@ -1,7 +1,7 @@
 import chart_studio.plotly as py
 from plotly.offline import init_notebook_mode, iplot
 import plotly.graph_objs as go
-
+import plotly.express as px
 
 # matplotlib library
 import pandas as pd
@@ -13,13 +13,13 @@ import random
 
 def Word_Cloud(): 
 
-    timesData = pd.read_csv('../data/raw/word_test.csv')
+    w_freq = pd.read_csv('wordyfreq.csv')
 
-    weights = [random.randint(1, 50) for i in range(len(timesData.country.value_counts()))]
+    weights = [random.randint(1, 50) for i in range(len(w_freq.token.value_counts()))]
     data = go.Scatter(x=[random.random() for i in range(20)],
                     y=[random.random() for i in range(20)],
                     mode='text',
-                    text=timesData.country.unique(),
+                    text=w_freq.token.unique(),
                     marker={'opacity': 0.3},
                     textfont={'size': weights,
                             'color': [
@@ -37,6 +37,9 @@ def Word_Cloud():
     )
 
     fig.write_html('templates/word.html')
+    h_freq = pd.read_csv('allDF2.csv')
+    fig = px.histogram(h_freq, x="enhancedSentiment")
+    fig.write_html('templates/hword.html')
 
 
    
