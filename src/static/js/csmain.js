@@ -1,3 +1,51 @@
+// const Pool = require("pg").Pool;
+// const fastcsv = require("fast-csv");
+
+// // create a write stream
+// const fs = require("fs");
+// const ws = fs.createWriteStream("sample_table.csv");
+
+// // declare a new client instance from Pool()
+// const client = new Pool({
+// host: "localhost",
+// user: "postgres",
+// database: "stock_db",
+// password: "posgres",
+// port: 5432
+// });
+
+// // declare constant for the table name
+// const tableName = "stock_data"
+
+// // attempt to connect using the Pool
+// client.connect((err, client, done) => {
+
+// // error handling for the client instance connection
+// if (err) throw err;
+
+// // SQL string that selects all records from a table
+// const sqlQuery = `SELECT * FROM ${tableName}`
+
+// // pass SQL string and table name to query()
+// client.query(sqlQuery, (err, res) => {
+
+// if (err) {
+// console.log("client.query()", err.stack)
+// }
+
+// if (res) {
+
+// const jsonData = JSON.parse(JSON.stringify(res.rows));
+// console.log("\njsonData:", jsonData)
+
+// fastcsv
+// // write the JSON data as a CSV file
+// .write(jsonData, { headers: true })
+
+// // log message when finished
+// .on("finish", function() {
+// console.log(`Postgres table ${tableName} exported to CSV file successfully.`);
+// })}
 // var timeDate = d3.timeFormat("%Y-%m-%d")
 var parseDate    = d3.time.format("%Y-%m-%d").parse;
 // var parseDate    = d3.timeParse(timeDate)
