@@ -93,6 +93,11 @@ def dash():
 def sword():
     return render_template('word.html')
 
+@app.route('/hfrequency/')
+def hword():
+    return render_template('lword.html')
+
+
 @app.route('/User-Profile/')
 def user():
 
